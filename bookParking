@@ -1,0 +1,274 @@
+package parking;
+
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Random;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+public class bookParking extends JFrame implements ActionListener {
+
+	private JPanel bookParkingg;
+	private JComboBox address_options;
+	private JTextField slotField;
+	private JTextField dateField;
+	private JTextField timeField;
+	private JTextField plateField;
+	private JTextField ticketField;
+	private Button confirmButton;
+	private JTextField usrNField;
+	
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					bookParking frame = new bookParking();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public bookParking() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(450, 100, 460, 600);
+		bookParkingg = new JPanel();
+		bookParkingg.setBackground(SystemColor.activeCaption);
+		bookParkingg.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(bookParkingg);
+		bookParkingg.setLayout(null);
+		setUndecorated(true); //to remove frame outline
+		
+		JLabel closeButton = new JLabel("X");
+		closeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		closeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+			}
+		});
+		closeButton.setFont(new Font("Tahoma", Font.BOLD, 18));
+		closeButton.setBackground(new Color(255, 0, 0));
+		closeButton.setForeground(new Color(178, 34, 34));
+		closeButton.setHorizontalAlignment(SwingConstants.RIGHT);
+		closeButton.setBounds(408, 0, 47, 29);
+		bookParkingg.add(closeButton);
+		
+		JLabel book = new JLabel("Book Parking");
+		book.setFont(new Font("Tahoma", Font.PLAIN, 36));
+		book.setBounds(123, 13, 239, 49);
+		bookParkingg.add(book);
+		
+		JLabel addressLabel = new JLabel("Address:");
+		addressLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		addressLabel.setBounds(31, 156, 99, 29);
+		bookParkingg.add(addressLabel);
+		String address_options[]={"5th Street", "9th Street", "24th Ave. West", "10th Ave. East", "8th Street"};
+		JComboBox address_option = new JComboBox(address_options);
+		address_option.setBackground(SystemColor.control);
+		address_option.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+			}
+		});
+		address_option.setBounds(130, 162, 276, 23);
+		bookParkingg.add(address_option);
+		
+		JLabel slotLabel = new JLabel("Slot Number (1-50):");
+		slotLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		slotLabel.setBounds(31, 196, 215, 39);
+		bookParkingg.add(slotLabel);
+		
+		slotField = new JTextField();
+		slotField.setBackground(SystemColor.control);
+		slotField.setBounds(242, 197, 58, 29);
+		bookParkingg.add(slotField);
+		slotField.setColumns(10);
+		
+		JLabel dateLabel = new JLabel("Book Date:");
+		dateLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		dateLabel.setBounds(31, 241, 115, 39);
+		bookParkingg.add(dateLabel);
+		
+		dateField = new JTextField();
+		dateField.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		dateField.setText("DD/MM/YY");
+		dateField.setBounds(200, 249, 185, 23);
+		bookParkingg.add(dateField);
+		dateField.setColumns(10);
+		
+		JLabel timeLabel = new JLabel("Book Time:");
+		timeLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		timeLabel.setBounds(31, 291, 115, 39);
+		bookParkingg.add(timeLabel);
+		
+		timeField = new JTextField();
+		timeField.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		timeField.setText("hh:mm");
+		timeField.setBounds(200, 296, 151, 29);
+		bookParkingg.add(timeField);
+		timeField.setColumns(10);
+		
+		JLabel plateLabel = new JLabel("Licence Plate #:");
+		plateLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		plateLabel.setBounds(31, 354, 172, 29);
+		bookParkingg.add(plateLabel);
+		
+		plateField = new JTextField();
+		plateField.setBounds(200, 353, 151, 29);
+		bookParkingg.add(plateField);
+		plateField.setColumns(10);
+		
+		JLabel ticketLabel = new JLabel("Ticket #: ");
+		ticketLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		ticketLabel.setBounds(31, 81, 99, 29);
+		bookParkingg.add(ticketLabel);
+		
+		ticketField = new JTextField();
+		ticketField.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		ticketField.setBounds(123, 85, 109, 23);
+		bookParkingg.add(ticketField);
+		ticketField.setColumns(10);
+		
+		JButton confirmButton = new JButton("Confirm");
+		confirmButton.setForeground(new Color(255, 255, 255));
+		confirmButton.setFont(new Font("Tahoma", Font.PLAIN, 33));
+		confirmButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String s1 = ticketField.getText();
+				String s2 = usrNField.getText();
+				String s3 = address_option.getSelectedItem() + "";
+				String s4 = slotField.getText();
+				String s5 = dateField.getText();
+				String s6 = timeField.getText();
+				String s7 = plateField.getText();
+				
+				
+				if(e.getSource() == confirmButton) {
+					
+								
+					try {
+						FileWriter database = new FileWriter("C:/Users/maune/Documents/Uni/Y5/Winter/3311/Project/bookParking.txt", true);
+									
+									
+						database.write("\n"+ s1 + ", ");
+						database.write(s2 + ", ");
+						database.write(s3 + ", ");
+						database.write(s4 + ",");
+						database.write(s5 + ",");
+						database.write(s6 + ",");
+						database.write(s7);
+						database.close();
+								
+					}catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						}
+								
+					JOptionPane.showMessageDialog(bookParkingg, "Confirmed Parking");	
+				}
+			}
+		});
+		confirmButton.setBackground(new Color(0, 128, 0));
+		confirmButton.setBounds(31, 416, 197, 47);
+		bookParkingg.add(confirmButton);
+		
+		JButton bookAgainButton = new JButton("Book Again");
+		bookAgainButton.setForeground(new Color(255, 255, 255));
+		bookAgainButton.setFont(new Font("Tahoma", Font.PLAIN, 33));
+		bookAgainButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bookParking bp = new bookParking();
+				bp.setVisible(true);
+				dispose();
+			}
+		});
+		bookAgainButton.setBackground(new Color(210, 105, 30));
+		bookAgainButton.setBounds(242, 416, 197, 47);
+		bookParkingg.add(bookAgainButton);
+		
+		JButton cancelButton = new JButton("Cancel A Booking");
+		cancelButton.setForeground(new Color(255, 255, 255));
+		cancelButton.setBackground(new Color(178, 34, 34));
+		cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cancellation c = new cancellation();
+				c.setVisible(true);
+				dispose();
+			}
+		});
+		cancelButton.setBounds(31, 508, 197, 47);
+		bookParkingg.add(cancelButton);
+		
+		JButton exitButton = new JButton("Exit");
+		exitButton.setForeground(new Color(255, 255, 255));
+		exitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		exitButton.setFont(new Font("Tahoma", Font.PLAIN, 33));
+		exitButton.setBackground(new Color(139, 0, 0));
+		exitButton.setBounds(242, 508, 197, 47);
+		bookParkingg.add(exitButton);
+		
+		JLabel usrNLabel = new JLabel("Username:");
+		usrNLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		usrNLabel.setBounds(31, 111, 138, 39);
+		bookParkingg.add(usrNLabel);
+		
+		usrNField = new JTextField();
+		usrNField.setBounds(144, 123, 185, 29);
+		bookParkingg.add(usrNField);
+		usrNField.setColumns(10);
+		
+		Random r = new Random();
+		for(int iCount = 0; iCount<10; iCount++) {
+			int randomNum = r.nextInt(1000000);
+			String val = String.valueOf(randomNum);
+			ticketField.setText(val);
+		}
+	
+	}
+
+	@Override
+	
+	public void actionPerformed(ActionEvent e) {
+		
+		
+	}
+	
+
+}
