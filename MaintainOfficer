@@ -1,0 +1,76 @@
+package parking;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
+
+public class MaintainOfficer {
+    public static String userLogin;
+	
+	public ArrayList<ParkingEnforcementOfficer> officers = new ArrayList<ParkingEnforcementOfficer>();
+	public String path;
+	
+	
+	public void load(String path) throws Exception{
+		CsvReader reader = new CsvReader(path); 
+		reader.readHeaders();
+		
+		while(reader.readRecord()){ 
+			ParkingEnforcementOfficer officer = new ParkingEnforcementOfficer();
+			//id,userName,email,password,firstName,lastName
+			
+			officer.setUserName(reader.get("userName"));
+			officer.setEmail(reader.get("email"));
+			officer.setPassword(reader.get("password"));
+			officer.setFirstName(reader.get("firstName"));
+			officer.setLastName(reader.get("lastName"));
+			officers.add(officer);
+		}
+	}
+	
+    
+	public void update(String path) throws Exception{
+		try {		
+				CsvWriter csvOutput = new CsvWriter(new FileWriter(path, false), ',');
+				//employeeId,userName,email,password,firstName,lastName
+			
+				csvOutput.write("userName");
+		    	csvOutput.write("email");
+				csvOutput.write("password");
+				csvOutput.write("firstName");
+				csvOutput.write("lastName");
+				csvOutput.endRecord();
+
+				// else assume that the file already has the correct header line
+				// write out a few records
+				for(ParkingEnforcementOfficer o: officers){
+					//csvOutput.write(String.valueOf(o.getEmployeeId()));
+					csvOutput.write(o.getUserName());
+					csvOutput.write(o.getEmail());
+					csvOutput.write(o.getPassword());
+					csvOutput.write(o.getFirstName());
+					csvOutput.write(o.getLastName());
+					csvOutput.endRecord();
+				}
+				csvOutput.close();
+			
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+	public static void main(String [] args) throws Exception{
+		String path = "C:/Users/maune/Documents/Uni/Y5/Winter/3311/Project/parkingauthority_admin_database.csv";
+		MaintainOfficer maintain = new MaintainOfficer();
+	
+		maintain.load(path);
+		for(ParkingEnforcementOfficer o: maintain.officers){
+			System.out.println(o.toString());
+		}
+		
+		ParkingEnforcementOfficer newOfficer = new ParkingEnforcementOfficer(); //90001, "peo0001", "peo0001@gmail.com", "p0001", "Jay", "Petterson"
+		maintain.officers.add(newOfficer);
+		maintain.update(path);
+	}
+}
