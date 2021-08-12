@@ -1,0 +1,259 @@
+package parking;
+
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+
+public class userLogin extends JFrame   {
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel userLogin;
+	private JTextField textField_userEmail;
+	private JTextField textField_userName;
+	private JComboBox option;
+	private JPasswordField passwordField;
+	Object loginButton;
+	
+	
+	
+
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					userLogin frame = new userLogin();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	} 
+
+	
+	
+	/**
+	 * Create the frame.
+	 */
+	public userLogin() {
+		
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(300, 200, 700, 411);
+		userLogin = new JPanel();
+		userLogin.setBackground(new Color(255, 250, 250));
+		userLogin.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(userLogin);
+		userLogin.setLayout(null);
+		setUndecorated(true); //to remove frame outline
+		
+		textField_userName = new JTextField();
+		textField_userName.setColumns(10);
+		textField_userName.setBounds(273, 152, 274, 23);
+		userLogin.add(textField_userName);
+		
+		textField_userEmail = new JTextField();
+		textField_userEmail.setBounds(273, 202, 274, 23);
+		userLogin.add(textField_userEmail);
+		textField_userEmail.setColumns(10);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(273, 245, 274, 23);
+		userLogin.add(passwordField);
+		
+		JLabel lbl_LoginAs = new JLabel("Login As*");
+		lbl_LoginAs.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lbl_LoginAs.setBounds(135, 110, 98, 19); //273, 106, 276, 23
+		userLogin.add(lbl_LoginAs);
+		
+		String options[]={"Toronto Parking Authority", "System Admin", "Parking Enforcement Officer", "Customer"};
+		JComboBox option = new JComboBox(options);
+		option.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+			}
+		});
+		option.setBounds(273, 106, 276, 23);
+		userLogin.add(option);
+		
+		
+		JLabel lbl_userName = new JLabel("User Name*");
+		lbl_userName.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lbl_userName.setBounds(135, 151, 98, 19);
+		userLogin.add(lbl_userName);
+		
+		JLabel lbl_Email = new JLabel("Email*");
+		lbl_Email.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lbl_Email.setBounds(135, 201, 98, 19);
+		userLogin.add(lbl_Email);
+		
+		JLabel lbl_Password = new JLabel("Password*");
+		lbl_Password.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lbl_Password.setBounds(135, 249, 98, 19);
+		userLogin.add(lbl_Password);
+		
+		JButton signUpButton = new JButton("Sign Up");
+		signUpButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		signUpButton.addActionListener(new ActionListener() {
+			
+
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				signUpButton.addActionListener(this);
+				
+				//ParkingEnforcementOfficer peo = new ParkingEnforcementOfficer(); //use something like this to open new gui 
+				
+				String s1 = option.getSelectedItem() + "";
+				String s2 = textField_userName.getText();
+				String s3 = textField_userEmail.getText();
+				String s4 = passwordField.getText();
+				
+				
+				if(e.getSource() == signUpButton) {
+					try {
+						FileWriter database = new FileWriter("C:/Users/maune/Documents/Uni/Y5/Winter/3311/Project/database.txt", true);
+					
+						database.write(s1 + ", ");
+						database.write(s2 + ", ");
+						database.write(s3 + ", ");
+						database.write(s4 + "\n");
+						database.close();
+						
+						
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				JOptionPane.showMessageDialog(userLogin, "Sucessfully Signed Up");
+			
+			}
+		});
+		signUpButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				signUpButton.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		signUpButton.setBounds(340, 339, 139, 39);
+		userLogin.add(signUpButton);
+		
+		
+		//public class MaintainOfficer implements ActionListener{
+			
+		//}
+		
+		JLabel lblNewJgoodiesTitle = DefaultComponentFactory.getInstance().createTitle("User Login");
+		lblNewJgoodiesTitle.setForeground(new Color(250, 128, 114));
+		lblNewJgoodiesTitle.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblNewJgoodiesTitle.setBounds(252, 28, 185, 47);
+		userLogin.add(lblNewJgoodiesTitle);
+		
+		JButton loginButton = new JButton("Login");
+		loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		loginButton.addActionListener(new ActionListener() {
+			
+
+			public void actionPerformed(ActionEvent e) {
+		
+				String s1 = option.getSelectedItem() + "";
+				String s2 = textField_userName.getText();
+				String s3 = textField_userEmail.getText();
+				String s4 = passwordField.getText();
+				
+				String line = " ";
+				String splitBy = ",";
+				
+				if(e.getSource() == loginButton) {
+				try {
+					
+					BufferedReader inn = new BufferedReader(new FileReader("C:/Users/maune/Documents/Uni/Y5/Winter/3311/Project/database.txt"));
+				
+					while((line = inn.readLine()) != null) {
+						//String s = sinn.nextLine();
+						String[] customer = line.split(splitBy);
+						
+				
+						System.out.println(customer[0] +" "+ customer[1] +" "+ customer[2] +" "+ customer[3]);
+					
+						 	if (s1.equals(customer[0]) && textField_userName.getText().equals((customer [1])) && 
+						 			textField_userEmail.getText().equals(customer[2]) && passwordField.getText().equals(customer[3])) {
+						 	//	JOptionPane.showMessageDialog(userLogin,"Success");
+						 		//userLogin.setVisible(false);
+						 		
+						 		//NOTE: error in code: need to click okay as many times until all the lines in the textfile are covered
+						 		// unless you have the exact match line, it will then open new window
+						 		bookParking bp = new bookParking();
+								bp.setVisible(true);
+								dispose();
+						 		
+			    
+			             }
+			              	 if(!s1.equals(customer[0]) || !textField_userName.getText().equals((customer [1])) || 
+							 			!textField_userEmail.getText().equals(customer[2]) && !passwordField.getText().equals(customer[3])) {
+			            	  JOptionPane.showMessageDialog(userLogin,"Not Success");
+			            	  
+			              }
+						  	
+			             
+					}
+				
+				}catch(IOException e1){
+					 JOptionPane.showMessageDialog(userLogin,"Error");
+					}
+				}
+			}
+				
+				
+		});
+		loginButton.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		loginButton.setBounds(341, 284, 139, 39);
+		userLogin.add(loginButton);
+		
+		JLabel closeButton = new JLabel("X");
+		closeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		closeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+			}
+		});
+		closeButton.setFont(new Font("Tahoma", Font.BOLD, 18));
+		closeButton.setBackground(new Color(255, 0, 0));
+		closeButton.setForeground(new Color(178, 34, 34));
+		closeButton.setHorizontalAlignment(SwingConstants.RIGHT);
+		closeButton.setBounds(643, 0, 47, 29);
+		userLogin.add(closeButton);
+	}
+	
+}
